@@ -64,8 +64,7 @@ class Handler:
 
             self.new_wb.save('files/result.xlsx')
 
-            '''remove('files/file.jpg')
+            remove('files/file.jpg')
             remove('files/file.xlsx')
-'''
         else:
             self.errorMessage = 'Parsing error'

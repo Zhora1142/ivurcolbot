@@ -43,4 +43,4 @@ class FinalHandler:
         except Exception as e:
             self.errorMessage = e
 
-        '''remove('files/result.xlsx')'''
+        remove('files/result.xlsx')
