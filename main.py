@@ -165,4 +165,4 @@ def update(message):
 
 
 if __name__ == '__main__':
-    bot.polling(non_stop=True)
+    bot.infinity_polling(timeout=10, long_polling_timeout=5)
