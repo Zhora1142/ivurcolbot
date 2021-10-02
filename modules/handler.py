@@ -5,7 +5,6 @@ from os import remove
 
 class Handler:
     def __init__(self):
-        self.errorMessage = None
         self.original_wb = load_workbook('files/file.xlsx', data_only=True)
         self.new_wb = Workbook()
 
@@ -67,4 +66,4 @@ class Handler:
             remove('files/file.jpg')
             remove('files/file.xlsx')
         else:
-            self.errorMessage = 'Parsing error'
+            raise Exception('Parsing_error')

@@ -28,7 +28,7 @@ class Scanner:
                                                        OCRWSInputImage=image, OCRWSSetting=settings)
 
         if result.errorMessage:
-            self.errorMessage = result.errorMessage
+            raise Exception(result.errorMessage)
         else:
             with open(f'files/{result.fileName}', 'wb') as file:
                 file.write(result.fileData)

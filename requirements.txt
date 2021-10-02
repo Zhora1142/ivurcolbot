@@ -3,3 +3,4 @@ openpyxl~=3.0.8
 zeep~=4.1.0
 PyYAML~=5.4.1
 mysql-connector~=2.2.9
+TelegramBotAPI~=0.3.2

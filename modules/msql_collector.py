@@ -5,7 +5,7 @@ class MysqlCollector:
 
     def __init__(self, server, username, passwd, db):
         self.my = mysql.connector.connect(user=username, password=passwd, host=server,
-                                          database=db)
+                                          database=db, connection_timeout=5)
         self.cursor = self.my.cursor()
 
     def select(self, table, cols='*', where=None):
