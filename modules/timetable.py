@@ -130,6 +130,7 @@ class Timetable:
                     current = couple
                 elif status == 'next':
                     next_couple = couple
+                    break
 
             if current:
                 response['status'] = 'couple'
@@ -158,7 +159,7 @@ class Timetable:
             elif data['status'] == 'break':
                 d = self.get_time_dif(self.time[data['couple']]['begin'])
                 string += f'\n🚬Следующая пара начнётся в <b>{self.get_time_string(data["couple"])["begin"]}</b>\n' \
-                          f'(через <b>{d}</b>\n'
+                          f'(через <b>{d}</b>)\n'
 
         string += f'\n<b>{self.get_time_string(first)["begin"]}</b> - <b>{self.get_time_string(last)["end"]}</b>'
 
