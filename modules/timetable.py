@@ -58,6 +58,19 @@ class Timetable:
         else:
             return None
 
+    def get_time_dif(self, t):
+        a = datetime(year=1, month=1, day=1, hour=t.hour, minute=t.minute)
+        b = datetime(year=1, month=1, day=1, hour=self.now.hour, minute=self.now.minute)
+
+        delta = a - b
+
+        hour = delta.seconds // 3600
+        minute = str(delta.seconds // 60 % 60)
+        if len(minute) == 1:
+            minute = f'0{minute}'
+
+        return f'{hour}:{minute}'
+
     def get_next_couple(self, first, last):
         couple = None
         for k, v in self.time.items():
@@ -134,13 +147,18 @@ class Timetable:
         string = ''
         if today:
             if data['status'] == 'not_started':
-                string += '\n🕘Пары ещё не начались\n'
+                d = self.get_time_dif(self.time[first]['begin'])
+                string += f'\n🕘Пары начнутся через <b>{d}</b>\n'
             elif data['status'] == 'finished':
                 string += '\n🤤На сегодня пары закончились\n/tomorrow\n'
             elif data['status'] == 'couple':
-                string += f'\n📖Текущая пара закончится в <b>{self.get_time_string(data["couple"])["end"]}</b>\n'
+                d = self.get_time_dif(self.time[data['couple']]['end'])
+                string += f'\n📖Текущая пара закончится в <b>{self.get_time_string(data["couple"])["end"]}</b>\n' \
+                          f'(через <b>{d}</b>)\n'
             elif data['status'] == 'break':
-                string += f'\n🚬Следующая пара начнётся в <b>{self.get_time_string(data["couple"])["begin"]}</b>\n'
+                d = self.get_time_dif(self.time[data['couple']]['begin'])
+                string += f'\n🚬Следующая пара начнётся в <b>{self.get_time_string(data["couple"])["begin"]}</b>\n' \
+                          f'(через <b>{d}</b>\n'
 
         string += f'\n<b>{self.get_time_string(first)["begin"]}</b> - <b>{self.get_time_string(last)["end"]}</b>'
 
