@@ -59,7 +59,16 @@ def doc(message):
 
 @bot.message_handler(commands=['picture'])
 def picture(message):
-    bot.send_photo(photo='http://www.ivurcol.net/raspisanie/22.jpg', chat_id=message.chat.id)
+    try:
+        file = requests.get('http://www.ivurcol.net/raspisanie/22.jpg')
+    except Exception as e:
+        logging.error(f'Timetable picture getting error: {e}')
+        bot.send_message(chat_id=message.chat.id, text='Произошла ошибка, попробуйте позже')
+    else:
+        if file.status_code != 200:
+            bot.send_message(chat_id=message.chat.id, text='Произошла ошибка, попробуйте позже')
+        else:
+            bot.send_photo(photo=file.content, chat_id=message.chat.id)
 
 
 @bot.message_handler(commands=['day'])
