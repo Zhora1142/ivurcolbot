@@ -53,7 +53,8 @@ def upd(bot, config, auto=True, call=None):
                         bot.edit_message_text(text='Расписание обновлено!', chat_id=call.message.chat.id,
                                               message_id=call.message.id)
     else:
-        msg = bot.send_message(chat_id=call.chat.id, text='Сохранение расписания...')
+        task = bot.send_message(chat_id=call.chat.id, text='Сохранение расписания...')
+        msg = task.wait()
         try:
             f = FinalHandler()
             f.handle()

@@ -44,7 +44,7 @@ def today(message):
 @bot.message_handler(content_types=['document'])
 def doc(message):
     global wait
-    if wait % message.from_user.id == 326911795:
+    if wait and message.from_user.id == 326911795:
         if message.document.mime_type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
             url = bot.get_file_url(file_id=message.document.file_id)
             with open(file='files/result.xlsx', mode='wb') as file:
