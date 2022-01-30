@@ -19,6 +19,24 @@ with open('config.yml') as stream:
 bot = telebot.AsyncTeleBot(**config['bot'])
 
 wait = False
+ocr = False
+
+
+@bot.message_handler(func=lambda m: ocr is True)
+def ocr_update(message):
+    text = message.text
+    text = text.split(':')
+    if len(text) != 2:
+        bot.send_message(chat_id=message.chat.id, text='Неверный формат')
+        return
+
+    config['OCR']['login'] = text[0]
+    config['OCR']['lic'] = text[1]
+    with open('config.yml', 'w') as f:
+        yaml.dump(config, f)
+    global ocr
+    ocr = False
+    bot.send_message(chat_id=message.chat.id, text='Настройки обновлены')
 
 
 @bot.message_handler(commands=['start'])
@@ -81,6 +99,16 @@ def day(message):
                  telebot.types.InlineKeyboardButton(text='Пятница', callback_data='day_5'),
                  telebot.types.InlineKeyboardButton(text='❌Закрыть', callback_data='delete'))
     bot.send_message(chat_id=message.chat.id, text='Выбери день', reply_markup=keyboard)
+
+
+@bot.message_handler(commands=['ocr'])
+def ocr(message):
+    if message.from_user.id == 326911795:
+        global ocr
+        ocr = True
+        bot.send_message(chat_id=message.chat.id, text='Отправь login:lic')
+    else:
+        bot.send_message(chat_id=message.chat.id, text='Обновлять настройки может только администратор')
 
 
 @bot.callback_query_handler(func=lambda call: True)
